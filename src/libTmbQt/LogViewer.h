@@ -1,6 +1,7 @@
 #pragma once
 
-#include "QPlainTextEdit"
+#include <QtGui>
+#include <QtWidgets>
 #include "LogListener.h"
 #include "Logger.h"
 
@@ -16,6 +17,10 @@ public:
 	virtual QtMsgType getLevel() const override;
 	virtual void handle(LogMessage const& message) override;
 
+	
+	static QtMsgType comboBoxIndexToQtMsgType(int comboBoxIndex);
+	static int qtMsgTypeToComboBoxIndex(QtMsgType level);
+
 protected Q_SLOTS:
 	//void localSettingChanged(QString const& key, QVariant const& value);
 	/// process buffer
@@ -28,6 +33,7 @@ private:
 
 	QPlainTextEdit* mConsole;
 	Logger* mLogger;
+	QComboBox* mLevelComboBox;
 
 	QtMsgType mLevel;
 

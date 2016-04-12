@@ -6,7 +6,44 @@
 #include "QComboBox"
 #include "QLabel"
 #include "Utilities.h"
+#include "SignalBlocker.h"
 
+
+QtMsgType LogViewer::comboBoxIndexToQtMsgType(int index)
+{
+	switch (index)
+	{
+	case 0:
+	default:
+		return QtDebugMsg;
+	case 1:
+		return QtInfoMsg;
+	case 2:
+		return QtWarningMsg;
+	case 3:
+		return QtCriticalMsg;
+	case 4:
+		return QtFatalMsg;
+	}
+}
+
+int LogViewer::qtMsgTypeToComboBoxIndex(QtMsgType level)
+{
+	switch (level)
+	{
+	case QtDebugMsg:
+	default:
+		return 0;
+	case QtInfoMsg:
+		return 1;
+	case QtWarningMsg:
+		return 2;
+	case QtCriticalMsg:
+		return 3;
+	case QtFatalMsg:
+		return 4;
+	}
+}
 
 
 LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
@@ -15,6 +52,7 @@ LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
 	, mConsole(new QPlainTextEdit(this))
 	, mLevel(QtWarningMsg)
 	, mMutex(QMutex::Recursive)
+	, mLevelComboBox(nullptr)
 {
 	Q_ASSERT(mLogger != nullptr);
 	mLogger->addListener(this);
@@ -35,37 +73,25 @@ LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
 	layout->addLayout(toolbar);
 	layout->addWidget(mConsole);
 
-	QComboBox* comboLevel = new QComboBox(this);
-	comboLevel->insertItem(0, "Debug");
-	comboLevel->insertItem(1, "Info");
-	comboLevel->insertItem(2, "Warning");
-	comboLevel->insertItem(3, "Critical");
-	comboLevel->insertItem(4, "None");
-	comboLevel->setCurrentIndex(msgTypeToInt(mLevel));
-	connect(comboLevel, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
+	mLevelComboBox = new QComboBox(this);
+	mLevelComboBox->insertItem(0, "Debug");
+	mLevelComboBox->insertItem(1, "Info");
+	mLevelComboBox->insertItem(2, "Warning");
+	mLevelComboBox->insertItem(3, "Critical");
+	mLevelComboBox->insertItem(4, "None");
+	mLevelComboBox->setCurrentIndex(msgTypeToInt(mLevel));
+	connect(mLevelComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
 		//gLocalSettings->setValue(LOCAL_LOG_VIEWER_LEVEL, intToMsgType(index));
 		//setLevel(intToMsgType(index));
-		QtMsgType newLevel = QtDebugMsg;
-		switch (index)
-		{
-		case 0:
-		default:
-			newLevel = QtDebugMsg; break;
-		case 1:
-			newLevel = QtInfoMsg; break;
-		case 2:
-			newLevel = QtWarningMsg; break;
-		case 3:
-			newLevel = QtCriticalMsg; break;
-		case 4:
-			newLevel = QtFatalMsg; break;
-		}
-		setLevel(newLevel);
+
+		setLevel(comboBoxIndexToQtMsgType(index));
 	});
 	toolbar->addWidget(new QLabel("Level", this));
-	toolbar->addWidget(comboLevel);
+	toolbar->addWidget(mLevelComboBox);
 
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	setLevel(intToMsgType(QSettings().value("logViewerLevel").toInt()));
 
 	refresh();
 
@@ -88,7 +114,12 @@ LogViewer::~LogViewer()
 void LogViewer::setLevel(QtMsgType level)
 {
 	mLevel = level;
+	{
+		SignalBlocker _(mLevelComboBox);
+		mLevelComboBox->setCurrentIndex(qtMsgTypeToComboBoxIndex(level));
+	}
 	refresh();
+	QSettings().setValue("logViewerLevel", level);
 }
 
 void LogViewer::handle(LogMessage const& message)
