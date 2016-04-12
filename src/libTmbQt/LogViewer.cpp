@@ -44,7 +44,23 @@ LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
 	comboLevel->setCurrentIndex(msgTypeToInt(mLevel));
 	connect(comboLevel, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
 		//gLocalSettings->setValue(LOCAL_LOG_VIEWER_LEVEL, intToMsgType(index));
-		mLevel = intToMsgType(index);
+		//setLevel(intToMsgType(index));
+		QtMsgType newLevel = QtDebugMsg;
+		switch (index)
+		{
+		case 0:
+		default:
+			newLevel = QtDebugMsg; break;
+		case 1:
+			newLevel = QtInfoMsg; break;
+		case 2:
+			newLevel = QtWarningMsg; break;
+		case 3:
+			newLevel = QtCriticalMsg; break;
+		case 4:
+			newLevel = QtFatalMsg; break;
+		}
+		setLevel(newLevel);
 	});
 	toolbar->addWidget(new QLabel("Level", this));
 	toolbar->addWidget(comboLevel);
