@@ -1,8 +1,13 @@
 #include "Utilities.h"
 
-QString toString(QDateTime const& date)
+QString toString(QDateTime const& date, bool includeTimeZone)
 {
-	return date.toString("yyyy-MM-dd HH:mm:ss");
+	QString s = date.toString("yyyy-MM-dd HH:mm:ss");
+	if (includeTimeZone)
+	{
+		s += " "+QTimeZone(date.offsetFromUtc()).displayName(QTimeZone::GenericTime, QTimeZone::OffsetName);
+	}
+	return s;
 }
 
 QString dateString()
