@@ -89,7 +89,7 @@ void LogWriter::setLevel(QtMsgType level)
 
 void LogWriter::purgeOldLogs()
 {
-	bool isPurgeEnabled = false;// gSynchronisedSettings->value(SYNC_IS_LOG_PURGING_ENABLED).toBool();
+	bool isPurgeEnabled = true;
 
 	if (isPurgeEnabled)
 	{
