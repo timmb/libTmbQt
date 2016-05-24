@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include <QtCore>
 #include <QtNetwork>
 

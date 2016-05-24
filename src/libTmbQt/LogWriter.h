@@ -12,7 +12,7 @@ public:
 	virtual ~LogWriter();
 
 	virtual void handle(LogMessage const& message) override;
-	virtual QtMsgType getLevel() const { return mLevel; }
+	virtual QtMsgType getLevel() const override { return mLevel; }
 	
 	void setLevel(QtMsgType level);
 

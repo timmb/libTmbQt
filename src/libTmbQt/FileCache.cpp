@@ -22,7 +22,7 @@ FileCache::~FileCache()
 
 void FileCache::setMaximumCacheSize(qint64 maximumBytes)
 {
-	mMaximumCacheSize;
+	mMaximumCacheSize = maximumBytes;
 }
 
 
@@ -125,7 +125,6 @@ void FileCache::onNetworkReply(QNetworkReply* reply)
 			}
 			if (reply->error() == QNetworkReply::NoError && file->error() == QFile::NoError)
 			{
-				QNetworkReply::NetworkError error = reply->error();
 				qDebug() << "Cached url" << reply->url() << "to temporary file" << file->fileName();
 			}
 			if (reply->error() != QNetworkReply::NoError)
@@ -135,7 +134,6 @@ void FileCache::onNetworkReply(QNetworkReply* reply)
 			}
 			if (file->error() != QFileDevice::NoError)
 			{
-				QFileDevice::FileError error = file->error();
 				qCritical() << "Error when attempting to write to temporary cache file" << file->fileName() << ":" << file->errorString();
 				mCache.remove(reply->url());
 			}

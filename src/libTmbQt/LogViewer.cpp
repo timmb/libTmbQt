@@ -48,11 +48,11 @@ int LogViewer::qtMsgTypeToComboBoxIndex(QtMsgType level)
 
 LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
 	: QWidget(parent)
-	, mLogger(logger)
 	, mConsole(new QPlainTextEdit(this))
-	, mLevel(QtWarningMsg)
-	, mMutex(QMutex::Recursive)
+    , mLogger(logger)
 	, mLevelComboBox(nullptr)
+    , mLevel(QtWarningMsg)
+    , mMutex(QMutex::Recursive)
 {
 	Q_ASSERT(mLogger != nullptr);
 	mLogger->addListener(this);

@@ -11,8 +11,8 @@ LogWriter::LogWriter(Logger* logger, QObject* parent /*= nullptr*/)
 	: QObject(parent)
 	, mOutputFile(nullptr)
 	, mLogger(logger)
-	, mIsHandlingMessage(false)
 	, mLevel(QtDebugMsg)
+    , mIsHandlingMessage(false)
 {
 	mLogger->addListener(this);
 	VERIFY(connect(logger, &QObject::destroyed, [this] { mLogger = nullptr; }));

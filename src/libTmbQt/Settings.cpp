@@ -54,7 +54,7 @@ void Settings::validateTypes()
 			auto valueType = value.type();
 			if (valueType != correctType)
 			{
-				if (valueType == QMetaType::QVariantList && correctType == QMetaType::QJsonArray)
+				if (valueType == (size_t)QMetaType::QVariantList && correctType == (size_t)QMetaType::QJsonArray)
 				{
 					mSettings.insert(key, QJsonArray::fromVariantList(value.toList()));
 					Q_ASSERT(mSettings.value(key).type() == correctType);
