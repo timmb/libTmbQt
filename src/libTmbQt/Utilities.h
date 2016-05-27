@@ -1,5 +1,6 @@
 #pragma once
 #include <QtCore>
+#include "ScopedTimer.h"
 
 #define VERIFY(expression) { bool result = expression; Q_ASSERT(result); }
 
