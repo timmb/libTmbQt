@@ -1,5 +1,5 @@
 #include "LogMessage.h"
-#include <xutility>
+//#include <xutility>
 
 LogMessage::LogMessage(QtMsgType type_, QMessageLogContext const& context_, QString message_)
 	: time(QDateTime::currentDateTime())
