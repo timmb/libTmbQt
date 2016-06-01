@@ -45,6 +45,11 @@ int LogViewer::qtMsgTypeToComboBoxIndex(QtMsgType level)
 	}
 }
 
+int LogViewer::numQtMsgTypes()
+{
+    return 5;
+}
+
 
 LogViewer::LogViewer(Logger* logger, QWidget* parent /*= nullptr*/)
 	: QWidget(parent)

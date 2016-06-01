@@ -13,10 +13,11 @@ public:
 
 	virtual void handle(LogMessage const& message) override;
 	virtual QtMsgType getLevel() const override { return mLevel; }
-	
-	void setLevel(QtMsgType level);
+
+    void setLevel(QtMsgType level);
 
 protected Q_SLOTS:
+    
 	//void onSettingChanged(QString const& key, QVariant const& value);
 
 private:

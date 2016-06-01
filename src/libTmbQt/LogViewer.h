@@ -20,6 +20,7 @@ public:
 	
 	static QtMsgType comboBoxIndexToQtMsgType(int comboBoxIndex);
 	static int qtMsgTypeToComboBoxIndex(QtMsgType level);
+    static int numQtMsgTypes();
 
 protected Q_SLOTS:
 	//void localSettingChanged(QString const& key, QVariant const& value);
