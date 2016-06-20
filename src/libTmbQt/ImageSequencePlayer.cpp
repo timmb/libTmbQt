@@ -19,10 +19,11 @@ ImageSequencePlayer::ImageSequencePlayer(QWidget* parent /*= nullptr*/)
 	, mLoader(new BackgroundImageLoader(this))
 	, mTimer(new HighPrecisionTimer(this))
 	, mFpsDisplay(nullptr)
-	, mFrameDeltaMovingAverage(30)
+	, mFrameDeltaMovingAverage()
+, mFrameDeltaMovingAverageValue(30)
 	, mOpacityEffect(new QGraphicsOpacityEffect)
 {
-	//mTimer->setTimerType(Qt::PreciseTimer);
+    //mTimer->setTimerType(Qt::PreciseTimer);
 	//mTimer->setSingleShot(true);
 	VERIFY(connect(mTimer, SIGNAL(timeout()), this, SLOT(timerCallback())));
 	setGraphicsEffect(mOpacityEffect);
@@ -217,12 +218,10 @@ void ImageSequencePlayer::setCurrentlyShownFrame(int frameNumber)
 		repaint();
 		if (mFpsDisplay != nullptr)
 		{
-			mFrameDeltaMovingAverage.update(mFramerateTimer.elapsed());
-			mFpsDisplay->setText(QString("%4 fps (delta mean: %1ms peak: %2ms, trough: %3ms)")
-				.arg(int(mFrameDeltaMovingAverage.mean()), 3)
-				.arg(int(mFrameDeltaMovingAverage.peak()), 3)
-				.arg(int(mFrameDeltaMovingAverage.trough()), 3)
-				.arg(1000.0 / mFrameDeltaMovingAverage.mean(), 3, 'f', 0));
+			mFrameDeltaMovingAverageValue = mFrameDeltaMovingAverage.update(mFramerateTimer.elapsed());
+			mFpsDisplay->setText(QString("%1 fps (delta %2ms)")
+                                 .arg(1000.0 / mFrameDeltaMovingAverageValue, 3, 'f', 0)
+                                 .arg(mFrameDeltaMovingAverageValue, 3));
 			mFramerateTimer.restart();
 		}
 	}

@@ -60,6 +60,7 @@ private:
 	HighPrecisionTimer* mTimer;
 	/// is null unless debug display is enabled
 	QLabel* mFpsDisplay;
-	MovingAverage mFrameDeltaMovingAverage;
+	MovingAverage<int> mFrameDeltaMovingAverage;
+    int mFrameDeltaMovingAverageValue;
 	QGraphicsOpacityEffect* mOpacityEffect;
 };
