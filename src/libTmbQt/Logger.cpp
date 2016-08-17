@@ -80,7 +80,7 @@ void Logger::handleMessage(std::shared_ptr<LogMessage const> message)
 			return;
 		}
 	}
-
+    
 	for (LogListener* listener : mListeners)
 	{
 		if (listener->shouldHandle(message->type))
@@ -89,9 +89,11 @@ void Logger::handleMessage(std::shared_ptr<LogMessage const> message)
 		}
 	}
 
+#ifndef _DEBUG
 	if (mListeners.empty())
+#endif
 	{
-		std::cerr << toString(message->time).toLocal8Bit().constData() 
+		std::cerr << toString(message->time).toLocal8Bit().constData()
 			<< " " << toString(message->type).toLocal8Bit().constData() 
 			<< ": " << message->message.toLocal8Bit().constData() 
 			<< " (" << message->location.toLocal8Bit().constData() << ")"
