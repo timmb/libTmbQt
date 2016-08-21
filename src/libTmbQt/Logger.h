@@ -42,6 +42,6 @@ private:
 	QList<std::shared_ptr<LogMessage const>> mBuffer;
 	QList<std::shared_ptr<LogMessage const>> mErrorBuffer;
 	mutable QReadWriteLock mBufferMutex;
-
+    mutable QMutex mStdOutMutex;
 };
 

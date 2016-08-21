@@ -93,6 +93,7 @@ void Logger::handleMessage(std::shared_ptr<LogMessage const> message)
 	if (mListeners.empty())
 #endif
 	{
+        QMutexLocker _(&mStdOutMutex);
 		std::cerr << toString(message->time).toLocal8Bit().constData()
 			<< " " << toString(message->type).toLocal8Bit().constData() 
 			<< ": " << message->message.toLocal8Bit().constData() 
