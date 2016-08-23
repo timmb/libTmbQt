@@ -31,12 +31,15 @@ public:
 
 	/// Messages with locations that start with \p location will be ignored completely.
 	void ignoreLocation(QString location);
+    /// Messages ending with \p suffix will be ignored completely
+    void ignoreSuffix(QString suffix);
 
 private:
 
 	QVector<LogListener*> mListeners;
 	
-	QStringList mLocationsToIgnore;
+	QVector<QString> mLocationsToIgnore;
+    QVector<QString> mSuffixesToIgnore;
 
 	/// Remember past messages
 	QList<std::shared_ptr<LogMessage const>> mBuffer;

@@ -80,6 +80,15 @@ void Logger::handleMessage(std::shared_ptr<LogMessage const> message)
 			return;
 		}
 	}
+    for (QString const& suffixToIgnore : mSuffixesToIgnore)
+    {
+        if (message->message.endsWith(suffixToIgnore))
+        {
+            return;
+        }
+    }
+    
+
     
 	for (LogListener* listener : mListeners)
 	{
@@ -128,3 +137,7 @@ void Logger::ignoreLocation(QString location)
 	mLocationsToIgnore << std::move(location);
 }
 
+void Logger::ignoreSuffix(QString suffix)
+{
+    mSuffixesToIgnore << std::move(suffix);
+}
