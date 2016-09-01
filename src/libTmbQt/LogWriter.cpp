@@ -11,7 +11,7 @@ LogWriter::LogWriter(Logger* logger, QObject* parent /*= nullptr*/)
 	: QObject(parent)
 	, mOutputFile(nullptr)
 	, mLogger(logger)
-	, mLevel(QtDebugMsg)
+	, mLevel(QtWarningMsg)
     , mIsHandlingMessage(false)
 {
 	mLogger->addListener(this);
