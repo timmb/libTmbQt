@@ -24,7 +24,7 @@ void HighPrecisionTimerInner::startLoop(int milliseconds)
 	//Q_ASSERT(mTimer.isValid());
 	while (mTimer.elapsed() < milliseconds && !mIsCancelled)
 	{
-		QThread::usleep(10);
+		QThread::usleep(50);
 	}
 	//mTimer.invalidate();
 	if (mIsCancelled)
