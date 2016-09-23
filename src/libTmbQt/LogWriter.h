@@ -15,14 +15,14 @@ public:
 	virtual QtMsgType getLevel() const override { return mLevel; }
 
     void setLevel(QtMsgType level);
+    void purgeOldLogs(int maxAgeInDays = 100);
+    
 
 protected Q_SLOTS:
     
 	//void onSettingChanged(QString const& key, QVariant const& value);
 
 private:
-	void purgeOldLogs();
-
 	QDir mOutputDir;
 	QFile* mOutputFile;
 	Logger* mLogger;

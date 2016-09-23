@@ -42,7 +42,7 @@ LogWriter::LogWriter(Logger* logger, QObject* parent /*= nullptr*/)
 		handle(*message);
 	}
 
-	purgeOldLogs();
+//	purgeOldLogs();
 }
 
 LogWriter::~LogWriter()
@@ -87,20 +87,18 @@ void LogWriter::setLevel(QtMsgType level)
 //	}
 //}
 
-void LogWriter::purgeOldLogs()
+void LogWriter::purgeOldLogs(int maxDaysOld)
 {
 	bool isPurgeEnabled = true;
 
 	if (isPurgeEnabled)
 	{
-		//Q_ASSERT(gSynchronisedSettings->value(SYNC_LOG_PURGE_AGE_DAYS).type() == QVariant::Int);
-		int maxDaysOld = 100;// gSynchronisedSettings->value(SYNC_LOG_PURGE_AGE_DAYS).toInt();
+        qDebug() << "Purging log files older than"<<maxDaysOld<<"days old.";
+        int numFilesPurged=0;
 		if (maxDaysOld < 0)
 		{
-			//qWarning() << "Value for" << SYNC_LOG_PURGE_AGE_DAYS << "was negative. Resetting to default.";
-			//gSynchronisedSettings->setValue(SYNC_LOG_PURGE_AGE_DAYS, gSynchronisedSettings->defaultValue(SYNC_LOG_PURGE_AGE_DAYS));
-			//maxDaysOld = gSynchronisedSettings->value(SYNC_LOG_PURGE_AGE_DAYS).toInt();
 			Q_ASSERT(maxDaysOld >= 0);
+            maxDaysOld = 0;
 		}
 		QDateTime const minLogDate = QDateTime::currentDateTime().addDays(-maxDaysOld);
 		QStringList const logFiles = mOutputDir.entryList(QStringList(DATE_TIME_WILDCARD + ".log"), QDir::Files | QDir::Writable, QDir::Time);
@@ -123,10 +121,18 @@ void LogWriter::purgeOldLogs()
 						{
 							qCritical() << "Failed to delete log file:" << logFilePath << "-" << logFile.errorString();
 						}
+                        else
+                        {
+                            numFilesPurged++;
+                        }
 					}
 				}
 			}
 		}
+        if (numFilesPurged>0)
+        {
+            qInfo() << "Purged"<<numFilesPurged<<"old log files";
+        }
 	}
 	else
 	{
