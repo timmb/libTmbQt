@@ -40,6 +40,7 @@ public:
 
 	/// Prevent any pending timeout
 	void cancel();
+    
 
 public Q_SLOTS:
 	/// Start one-shot timer

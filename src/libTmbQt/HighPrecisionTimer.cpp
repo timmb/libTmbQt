@@ -57,10 +57,11 @@ HighPrecisionTimer::~HighPrecisionTimer()
 	cancel();
 }
 
+
 void HighPrecisionTimer::cancel()
 {
+    mIsRunning = false;
 	mInner->cancel();
-	mIsRunning = false;
 }
 
 void HighPrecisionTimer::start(int milliseconds)
@@ -76,8 +77,11 @@ void HighPrecisionTimer::start(int milliseconds)
 
 void HighPrecisionTimer::timeoutInner()
 {
-	mIsRunning = false;
-	Q_EMIT timeout();
+    if (mIsRunning)
+    {
+        mIsRunning = false;
+        Q_EMIT timeout();
+    }
 }
 
 
