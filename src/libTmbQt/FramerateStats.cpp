@@ -14,7 +14,7 @@ FramerateStats::FramerateStats(int lastDuration_, int meanDuration_, int peakDur
 , peakDelta(peakDelta_)
 {}
 
-FramerateStats()
+FramerateStats::FramerateStats()
 : lastDuration(-42)
 , meanDuration(-42)
 , peakDuration(-42)

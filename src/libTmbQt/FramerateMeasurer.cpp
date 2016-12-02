@@ -19,7 +19,7 @@
     
     void FramerateMeasurer::beginFrame()
     {
-        mLastDelta = mTimer.restart();
+        mLastDelta = (int) mTimer.restart();
         mMeanDelta = mMeanFrameDelta.update(mLastDelta);
         mPeakDelta = mPeakFrameDelta.update(mLastDelta);
     }
@@ -27,7 +27,7 @@
     
     void FramerateMeasurer::endFrame()
     {
-        mLastDuration = mTimer.elapsed();
+        mLastDuration = (int) mTimer.elapsed();
         mMeanDuration = mMeanFrameDuration.update(mLastDuration);
         mPeakDuration = mPeakFrameDuration.update(mLastDuration);
         Q_EMIT framerateChanged({mLastDuration, mMeanDuration, mPeakDuration, mLastDelta, mMeanDelta, mPeakDelta});
