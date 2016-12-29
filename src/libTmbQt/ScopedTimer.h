@@ -16,24 +16,29 @@
 class ScopedTimer
 {
 public:
-    ScopedTimer(char const* name)
+    ScopedTimer(char const* name, int minDurationToPrintMessage=0)
     : mName(name)
+    , mMinDurationToPrintMessage(minDurationToPrintMessage)
     {
         mTimer.start();
     }
     
     ~ScopedTimer()
     {
-        std::cout
-//        qDebug().nospace()
-        << "ScopedTimer "<<mName<<": "<<mTimer.elapsed()<<"ms"
-        << std::endl
-        ;
-        
+        auto const t = mTimer.elapsed();
+        if (t > mMinDurationToPrintMessage)
+        {
+            std::cout
+            //        qDebug().nospace()
+            << "ScopedTimer "<<mName<<": "<<t<<"ms"
+            << std::endl
+            ;
+        }
         
     }
     
 private:
     QElapsedTimer mTimer;
     char const* const mName;
+    int mMinDurationToPrintMessage;
 };
