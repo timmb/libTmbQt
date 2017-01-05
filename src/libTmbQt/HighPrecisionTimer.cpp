@@ -54,7 +54,9 @@ HighPrecisionTimer::HighPrecisionTimer(QObject* parent /*= nullptr*/)
 
 HighPrecisionTimer::~HighPrecisionTimer()
 {
+    mThread->quit();
 	cancel();
+    VERIFY(mThread->wait(5000));
 }
 
 
