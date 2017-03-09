@@ -4,9 +4,9 @@
 
 #define VERIFY(expression) { bool result = expression; Q_ASSERT(result); }
 
-QString dateString();
+QString dateString(QString timeDelimiter=":");
 /// To ISO format
-QString toString(QDateTime const& date, bool includeTimeZone = false);
+QString toString(QDateTime const& date, bool includeTimeZone = false, QString timeDelimiter=":");
 QString formatDuration(qint64 numSeconds);
 
 bool isAsSeriousAs(QtMsgType candidateMessageType, QtMsgType requiredSeriousnessLevel);

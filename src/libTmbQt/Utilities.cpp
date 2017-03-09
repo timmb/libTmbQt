@@ -1,8 +1,8 @@
 #include "Utilities.h"
 
-QString toString(QDateTime const& date, bool includeTimeZone)
+QString toString(QDateTime const& date, bool includeTimeZone, QString timeDelimiter)
 {
-	QString s = date.toString("yyyy-MM-dd HH:mm:ss");
+	QString s = date.toString(QString("yyyy-MM-dd HH%1mm%1ss").arg(timeDelimiter));
 	if (includeTimeZone)
 	{
 		s += " "+QTimeZone(date.offsetFromUtc()).displayName(QTimeZone::GenericTime, QTimeZone::OffsetName);
@@ -10,10 +10,11 @@ QString toString(QDateTime const& date, bool includeTimeZone)
 	return s;
 }
 
-QString dateString()
+QString dateString(QString timeDelimiter)
 {
-	return toString(QDateTime::currentDateTime());
+	return toString(QDateTime::currentDateTime(), false, timeDelimiter);
 }
+
 
 QString formatDuration(qint64 seconds)
 {
