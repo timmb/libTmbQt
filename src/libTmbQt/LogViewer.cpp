@@ -161,7 +161,8 @@ void LogViewer::p_handle(LogMessage const& message)
 	QString datetime = message.time.toString("yyyy-MM-dd HH:mm:ss.zzz");
     QString text = message.message;
     text.replace("\n", "<br>");
-	QString s(QString("<span style=\"color:#%5\"><small>--- <i>%1\t %2 \t%3</i></small><br>%4</span>").arg(toString(message.type), datetime, message.location, text, colors.value(message.type)));
+    text.replace("\\n", "<br>");
+    QString s(QString("<span style=\"color:#%5\"><small>--- <i>%1\t %2 \t%3</i><br><pre>%4</pre></small></span>").arg(toString(message.type), datetime, message.location, text, colors.value(message.type)));
 	{
 		QMutexLocker lock(&mMutex);
 		mBuffer << s;
