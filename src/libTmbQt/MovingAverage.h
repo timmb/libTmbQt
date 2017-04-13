@@ -132,5 +132,5 @@ T MovingAverage<T>::update(T const& d)
 		mCurrentRecalculationSum = T();
 		mCurrentRecalculationSumCount = 0;
 	}
-	return mCurrentSum / mBuffer.size();
+	return mCurrentSum / (uint32_t) mBuffer.size();
 }
