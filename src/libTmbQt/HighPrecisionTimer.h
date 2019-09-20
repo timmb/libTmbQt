@@ -14,7 +14,7 @@ private:
 
 protected Q_SLOTS:
 	/// Starts thread loop
-	void startLoop(int milliseconds);
+	void startLoop(double milliseconds);
 
 Q_SIGNALS:
 	void timeout();
@@ -44,7 +44,7 @@ public:
 
 public Q_SLOTS:
 	/// Start one-shot timer
-	void start(int milliseconds);
+	void start(double milliseconds);
 
 protected Q_SLOTS:
 	void timeoutInner();
@@ -52,7 +52,7 @@ protected Q_SLOTS:
 Q_SIGNALS:
 	void timeout();
 
-	void startInner(int milliseconds);
+	void startInner(double milliseconds);
 
 private:
 	QThread* mThread;

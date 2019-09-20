@@ -19,10 +19,11 @@ void HighPrecisionTimerInner::cancel()
 	mIsCancelled = true;
 }
 
-void HighPrecisionTimerInner::startLoop(int milliseconds)
+void HighPrecisionTimerInner::startLoop(double milliseconds)
 {
 	//Q_ASSERT(mTimer.isValid());
-	while (mTimer.elapsed() < milliseconds && !mIsCancelled)
+    const qint64 nanoseconds = (qint64) qFloor(milliseconds * 1000000.0);
+	while (mTimer.nsecsElapsed() < nanoseconds && !mIsCancelled)
 	{
 		QThread::usleep(50);
 	}
@@ -44,7 +45,7 @@ HighPrecisionTimer::HighPrecisionTimer(QObject* parent /*= nullptr*/)
 	, mInner(new HighPrecisionTimerInner)
 	, mIsRunning(false)
 {
-	VERIFY(connect(this, SIGNAL(startInner(int)), mInner, SLOT(startLoop(int))));
+	VERIFY(connect(this, SIGNAL(startInner(double)), mInner, SLOT(startLoop(double))));
 	VERIFY(connect(mInner, SIGNAL(timeout()), this, SLOT(timeoutInner())));
 
 	mThread->start(QThread::TimeCriticalPriority);
@@ -66,7 +67,7 @@ void HighPrecisionTimer::cancel()
 	mInner->cancel();
 }
 
-void HighPrecisionTimer::start(int milliseconds)
+void HighPrecisionTimer::start(double milliseconds)
 {
 	if (mIsRunning)
 	{
