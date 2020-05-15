@@ -20,7 +20,7 @@ LogWriter::LogWriter(Logger* logger, QObject* parent /*= nullptr*/)
 	//mLevel = intToMsgType(gSynchronisedSettings->value(SYNC_LOG_WRITER_LEVEL).toInt());
 	QString outputFilename = QDateTime::currentDateTime().toString(DATE_TIME_FORMAT) + ".log";
 	QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).mkpath("logs");
-	mOutputDir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("logs");
+	mOutputDir.setPath(QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).filePath("logs"));
 	mOutputFile = new QFile(mOutputDir.filePath(outputFilename), this);
 	bool openOk = mOutputFile->open(QFile::WriteOnly);
 	if (!openOk)

@@ -46,12 +46,12 @@ private:
 	double mDuration;
 
 	// state
-	QTime mStartTime;
+	QElapsedTimer mStartTime;
 	int mCurrentFrameNumber;
 	bool mIsPlaying;
 	QElapsedTimer mFramerateTimer;
 	bool mIsFadeout;
-	QTime mFadeoutStartTime;
+	QElapsedTimer mFadeoutStartTime;
 	double mFadeoutDurationMs;
 	double mFadeinDurationMs;
 
