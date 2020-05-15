@@ -152,11 +152,12 @@ void LogViewer::p_handle(LogMessage const& message)
 {
 	static QMap<QtMsgType, QString> const colors = {
 		{ QtDebugMsg, "888" },
-		{ QtInfoMsg, "222" },
+		{ QtInfoMsg, QPalette().color(QPalette::Text).name(QColor::HexRgb) },
 		{ QtWarningMsg, "f44" },
 		{ QtCriticalMsg, "f00" },
 		{ QtFatalMsg, "f00" },
 	};
+    
 
 	QString datetime = message.time.toString("yyyy-MM-dd HH:mm:ss.zzz");
     QString text = message.message;
