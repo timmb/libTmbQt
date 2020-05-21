@@ -6,10 +6,10 @@ CachedData::CachedData(QString uniqueName, int version, std::function<QByteArray
 , mVersion(version)
 , mGenerator(std::move(generator))
 {
-    Q_ASSERT(uniqueName.size() < 32);
+    Q_ASSERT(mName.size() < 32);
     if (!readCache())
     {
-        qInfo() << "Calculating new value for"<<uniqueName<<"version"<<version;
+        qInfo() << "Calculating new value for"<<mName<<"version"<<version;
         mData = mGenerator();
         writeCache();
     }
